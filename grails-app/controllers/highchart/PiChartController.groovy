@@ -7,91 +7,91 @@ import grails.transaction.Transactional
 
 @Secured(['ROLE_ADMIN'])
 @Transactional(readOnly = true)
-class ChartOneController {
+class PiChartController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        respond ChartOne.list(params), model:[chartOneCount: ChartOne.count()]
+        respond PiChart.list(params), model:[piChartCount: PiChart.count()]
     }
 
-    def show(ChartOne chartOne) {
-        respond chartOne
+    def show(PiChart piChart) {
+        respond piChart
     }
 
     def create() {
-        respond new ChartOne(params)
+        respond new PiChart(params)
     }
 
     @Transactional
-    def save(ChartOne chartOne) {
-        if (chartOne == null) {
+    def save(PiChart piChart) {
+        if (piChart == null) {
             transactionStatus.setRollbackOnly()
             notFound()
             return
         }
 
-        if (chartOne.hasErrors()) {
+        if (piChart.hasErrors()) {
             transactionStatus.setRollbackOnly()
-            respond chartOne.errors, view:'create'
+            respond piChart.errors, view:'create'
             return
         }
 
-        chartOne.save flush:true
+        piChart.save flush:true
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'chartOne.label', default: 'ChartOne'), chartOne.id])
-                redirect chartOne
+                flash.message = message(code: 'default.created.message', args: [message(code: 'piChart.label', default: 'PiChart'), piChart.id])
+                redirect piChart
             }
-            '*' { respond chartOne, [status: CREATED] }
+            '*' { respond piChart, [status: CREATED] }
         }
     }
 
-    def edit(ChartOne chartOne) {
-        respond chartOne
+    def edit(PiChart piChart) {
+        respond piChart
     }
 
     @Transactional
-    def update(ChartOne chartOne) {
-        if (chartOne == null) {
+    def update(PiChart piChart) {
+        if (piChart == null) {
             transactionStatus.setRollbackOnly()
             notFound()
             return
         }
 
-        if (chartOne.hasErrors()) {
+        if (piChart.hasErrors()) {
             transactionStatus.setRollbackOnly()
-            respond chartOne.errors, view:'edit'
+            respond piChart.errors, view:'edit'
             return
         }
 
-        chartOne.save flush:true
+        piChart.save flush:true
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'chartOne.label', default: 'ChartOne'), chartOne.id])
-                redirect chartOne
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'piChart.label', default: 'PiChart'), piChart.id])
+                redirect piChart
             }
-            '*'{ respond chartOne, [status: OK] }
+            '*'{ respond piChart, [status: OK] }
         }
     }
 
     @Transactional
-    def delete(ChartOne chartOne) {
+    def delete(PiChart piChart) {
 
-        if (chartOne == null) {
+        if (piChart == null) {
             transactionStatus.setRollbackOnly()
             notFound()
             return
         }
 
-        chartOne.delete flush:true
+        piChart.delete flush:true
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'chartOne.label', default: 'ChartOne'), chartOne.id])
+                flash.message = message(code: 'default.deleted.message', args: [message(code: 'piChart.label', default: 'PiChart'), piChart.id])
                 redirect action:"index", method:"GET"
             }
             '*'{ render status: NO_CONTENT }
@@ -101,7 +101,7 @@ class ChartOneController {
     protected void notFound() {
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.not.found.message', args: [message(code: 'chartOne.label', default: 'ChartOne'), params.id])
+                flash.message = message(code: 'default.not.found.message', args: [message(code: 'piChart.label', default: 'PiChart'), params.id])
                 redirect action: "index", method: "GET"
             }
             '*'{ render status: NOT_FOUND }
